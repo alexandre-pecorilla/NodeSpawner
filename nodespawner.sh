@@ -24,7 +24,7 @@ cat << 'EOF'
 EOF
 
 
-echo -e "This script will install and deploy a fully operational Tor Middle/Guard relay on your server.\nUse it on a fresh VPS running recent versions of Debian or Ubuntu.\n" 
+echo -e "This script will install and deploy a fully operational Tor Middle/Guard relay on your server.\nUse it on a fresh VPS running a recent version of Debian or Ubuntu.\n" 
 read -p "Press enter to spawn your relay..."
 
 echo -e "\n\n=========================================\nStep 0: Fetch system info...\n=========================================\n\n"
