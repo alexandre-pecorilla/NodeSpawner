@@ -15,7 +15,7 @@
 
 The goal is to make it easier to support decentralized networks and use self-hosted open-source tech.
 
-Guidelines:
+## Guidelines
 
 1. Use the [Tor Browser](https://www.torproject.org/download/)
 2. Find a privacy oriented VPS provider like [Njalla](https://njallalafimoej5i4eg7vlnqjvmb6zhdh27qxcatdn647jtwwwui3nad.onion/)
