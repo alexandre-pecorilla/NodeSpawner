@@ -18,8 +18,9 @@ The goal is to make it easier to support decentralized networks and use self-hos
 ## Guidelines
 
 1. Use the [Tor Browser](https://www.torproject.org/download/)
-2. Find a privacy oriented VPS provider like [Njalla](https://njallalafimoej5i4eg7vlnqjvmb6zhdh27qxcatdn647jtwwwui3nad.onion/)
+2. Find a privacy oriented VPS provider like [Njalla](https://njallalafimoej5i4eg7vlnqjvmb6zhdh27qxcatdn647jtwwwui3nad.onion/) or [TheOnionHost](https://theonionhost.com/)
 3. Register with XMPP OMEMO (get a free account [here](https://5july.org/jabber/) and use an OMEMO-compatible client like [Gaijin](https://gajim.org/))
+4. Or alternatively, register with a paid [Tuta](https://tuta.com/) email account (you can get a gift card with Monero [here](http://67w4f46nfrfigohl4ypgpo7cjnftl57rorha3zmn4xkll5jvmi6mi4qd.onion/businesses/email-providers-forwarders/tuta-e-mail))
 5. Pick a small VPS with a recent version of Debian/Ubuntu x64
 6. Pay with [Monero](http://monerotoruzizulg5ttgat2emf4d6fbmiea25detrmmy7erypseyteyd.onion)
 7. Use `torsocks` to SSH in the VPS
