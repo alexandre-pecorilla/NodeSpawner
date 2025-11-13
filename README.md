@@ -15,7 +15,7 @@
 
 The goal is to make it easier to support decentralized networks and use self-hosted open-source tech.
 
-Recommendations:
+Guidelines:
 
 1. Use the [Tor Browser](https://www.torproject.org/download/)
 2. Find a privacy oriented VPS provider like [Njalla](https://njallalafimoej5i4eg7vlnqjvmb6zhdh27qxcatdn647jtwwwui3nad.onion/)
@@ -25,8 +25,10 @@ Recommendations:
 7. Use `torsocks` to SSH in the VPS
 8. Change the default SSH port and only allow key authentication (disable password authentication)
 9. Don't setup a firewall, the scripts take care of it and only expose what's needed
-10. Run no more than one script per VPS (we prefer small single purpose VPS)
-11. Keep your OS and programs up to date
+10. The scripts will also install all the required apt packages
+11. Run the scripts as root
+12. Run no more than one script per VPS (we prefer small single purpose VPS)
+13. Keep your OS and programs up to date
 
 ## List of scripts
 
