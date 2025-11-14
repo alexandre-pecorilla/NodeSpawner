@@ -11,6 +11,12 @@ if [ "$EUID" -ne 0 ]; then
    exit 1
 fi
 
+# Ensure apt is non interactive
+export DEBIAN_FRONTEND=noninteractive
+APT_OPTS="-o Dpkg::Options::=--force-confnew --yes"
+QUIET=">/dev/null 2>&1"
+
+
 cat << 'EOF'
  _   _           _        ____                                       
 | \ | | ___   __| | ___  / ___| _ __   __ ___      ___ __   ___ _ __ 
@@ -23,8 +29,7 @@ cat << 'EOF'
 
 EOF
 
-
-echo -e "This script will install and deploy a fully operational Tor Middle/Guard relay on your server.\nUse it on a fresh VPS running a recent version of Debian or Ubuntu.\n" 
+echo -e "This script will install and deploy a fully operational Tor Middle/Guard relay on your VPS.\nMake sure to follow the guidelines at https://github.com/alexandre-pecorilla/NodeSpawner/blob/main/README.md#guidelines.\n\n" 
 read -p "Press enter to spawn your relay..."
 
 echo -e "\n\n=========================================\nStep 0: Fetch system info...\n=========================================\n\n"
@@ -33,17 +38,26 @@ echo "Architecture: $arch"
 dist=$(lsb_release -cs)
 echo "Distribution code name: $dist"
 
-echo -e "\n=========================================\nStep 1: Add Tor repository & GPG key...\n=========================================\n\n"
+echo -e "\n=========================================\nStep 1: Installing dependencies...\n=========================================\n\n"
+
+echo "Please be patient this can take a while..."
+# System update and upgrade (fully silent)
+eval apt update $APT_OPTS $QUIET
+eval apt upgrade $APT_OPTS $QUIET
+
+# Basic tools (fully silent)
+eval apt install $APT_OPTS apt-transport-https gnupg ufw wget $QUIET
+
 cat > /etc/apt/sources.list.d/tor.list << EOF
 deb     [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $dist main
 deb-src [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $dist main
 EOF
 wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor | tee /usr/share/keyrings/deb.torproject.org-keyring.gpg >/dev/null
-echo -e "SUCCESS: Repository and GPG key added.\n"
 
-echo -e "\n=========================================\nStep 2: Install APT packages...\n=========================================\n\n"
-apt update > /dev/null 2>&1
-apt install -y apt-transport-https gnupg ufw tor > /dev/null 2>&1
+# Install Tor silently
+eval apt update $APT_OPTS $QUIET
+eval apt install $APT_OPTS tor $QUIET
+
 echo -e "SUCCESS: Packages installed.\n"
 
 echo -e "\n=========================================\nStep 3: Collect relay info...\n=========================================\n\n"
@@ -123,14 +137,13 @@ done
 ufw allow $ssh_port/tcp > /dev/null 2>&1
 ufw allow $port_number/tcp > /dev/null 2>&1
 ufw --force enable > /dev/null 2>&1
-ufw status
 
 echo -e "SUCCESS: Firewall enabled.\n"
 
-
 echo -e "\n=========================================\nStep 6: Spawn relay...\n=========================================\n\n"
 systemctl restart tor
-echo -e "SUCCESS: Relay started.\n"
+echo -e "SUCCESS: Relay started."
+echo -e "Waiting for fingerprint...\n"
 
 sleep 10 # Wait for Tor to write its fingerprint
 fingerprint_file="/var/lib/tor/fingerprint"
